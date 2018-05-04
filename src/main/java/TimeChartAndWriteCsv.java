@@ -14,8 +14,8 @@ class CpuTimeChart extends ChartPanel {
     String[] cpuheader = {"DateTime", "CPU"};
     WriteLogFiles cpufile = new WriteLogFiles(".\\out\\log\\cpu"+System.currentTimeMillis()+".csv", cpuheader);
     CSVPrinter cpuprinter = cpufile.initPrinter();
-    GetCmmandInfo GC = new GetCmmandInfo();
-    int ver = GC.GetAndroidVersion(); //增加支持android8.0系统的cpu获取
+    GetUniversalInfo GU = new GetUniversalInfo();
+    int ver = GU.GetAndroidVersion(); //增加支持android8.0系统的cpu获取
 
     public CpuTimeChart(String chartContent, String title, String yaxisName) throws Exception {
         super(createChart(chartContent, title, yaxisName));
