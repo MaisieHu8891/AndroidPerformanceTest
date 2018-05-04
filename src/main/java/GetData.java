@@ -5,24 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 class GetNetWorkFlow {
-    String userId;
-    List<String> lines = new ArrayList<>();
+    private String userId;
+//    private List<String> lines = new ArrayList<>();
 
     public GetNetWorkFlow(String userId) {
         this.userId = userId;
     }
-    public List<String> data() throws Exception {
-        Process p = Runtime.getRuntime().exec("adb shell cat /proc/net/xt_qtaguid/stats|grep "+userId);
-        InputStream is = p.getInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        p.waitFor();
-        String line = reader.readLine();
-        while (line != null) {
-            lines.add(line);
-            line = reader.readLine();
-        }
-        reader.close();
-        return lines;
+    public String data() throws Exception {
+//        Process p = Runtime.getRuntime().exec("adb shell cat /proc/net/xt_qtaguid/stats|grep "+userId);
+//        InputStream is = p.getInputStream();
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+//        p.waitFor();
+//        String line = reader.readLine();
+        GetCmmandInfo GC = new GetCmmandInfo("adb shell cat /proc/net/xt_qtaguid/stats|grep "+userId);
+
+        String[] netinfo = GC.appInfo();
+        String line = netinfo[1];
+//        System.out.println(line);
+//        while (line != null) {
+//            lines.add(line);
+//        }
+        return line;
     }
 }
 
@@ -52,7 +55,7 @@ class GetCPU {
     }
 
 class GetMEM {
-    String cmmand;
+    private String cmmand;
     public GetMEM(String cmmand) {
         this.cmmand =cmmand;
     }
@@ -61,7 +64,7 @@ class GetMEM {
         try {
             String[] meminfo = gmem.appInfo();
             meminfo[1] = meminfo[1].split("\\s+")[2];
-            //System.out.println(meminfo[1]);
+            System.out.println(meminfo[1]);
             return meminfo;
         } catch (Exception e) {
             e.printStackTrace();
