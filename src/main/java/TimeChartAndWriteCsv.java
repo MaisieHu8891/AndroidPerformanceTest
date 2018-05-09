@@ -74,7 +74,7 @@ class MemTimeChart extends ChartPanel {
     }
 
     public Integer MemNum() throws IOException {
-        GetMEM getmemdata = new GetMEM("adb shell dumpsys meminfo com.panda.videoliveplatform|grep TOTAL");
+        GetMEM getmemdata = new GetMEM();
         String[] memresult = getmemdata.data(); //换成获取memery信息的函数
         memfile.doWrite(memprinter,memresult);
         return Integer.parseInt(memresult[1]);

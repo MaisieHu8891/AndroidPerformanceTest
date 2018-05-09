@@ -8,17 +8,12 @@ import java.util.regex.Pattern;
 public class GetCmmandInfo {
     private String cmmand;
 
-    public GetCmmandInfo(String cmmand) {
-        this.cmmand = cmmand;
-    }
+    public GetCmmandInfo() {}
 
-    public GetCmmandInfo() {
-    }
-
-    public String[] appInfo() throws Exception {
+    public static String[] appInfo(String cmmand) throws Exception {
         BufferedReader br = null;
         try {
-            Process p = Runtime.getRuntime().exec(this.cmmand);
+            Process p = Runtime.getRuntime().exec(cmmand);
             br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
             StringBuilder sb = new StringBuilder();
