@@ -39,7 +39,7 @@ public class GetCmmandInfo {
         }
     }
 
-    public String regStr(String s, String reg) {
+    public static String regStr(String s, String reg) {
         Pattern pattern = Pattern.compile(reg);
         Matcher matcher = pattern.matcher(s);
         if (matcher.find()) {

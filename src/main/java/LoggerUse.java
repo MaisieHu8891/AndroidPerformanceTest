@@ -1,24 +1,31 @@
+import java.io.IOException;
 import java.util.logging.*;
 
 
 public class LoggerUse {
-    private Level  defaultlevel= Level.ALL;
-    private LoggerUse(){
-        Logger logobject = Logger.getLogger("logobject ");
-        logobject.setLevel(defaultlevel);
-    }
+    static Logger logobject = Logger.getLogger("logobject ");
 
     static class LogFormatter extends Formatter{
         @Override
         public String format(LogRecord record) {
-            return "<"+record.getLevel()+">:"+record.getMessage()+"\n";
+            return "<"+record.getLevel()+">___"+record.getMessage()+"\n";
         }
     }
 
-    public Logger getLogobject(Logger logobject){
-        ConsoleHandler ch = new ConsoleHandler();
+    static {
+        Level  defaultlevel= Level.ALL;
+        logobject.setLevel(defaultlevel);
+        FileHandler ch = null;
+        try {
+            //ch = new FileHandler("D:\\coding\\IdeaProjects\\PandaTest\\AndroidPerformanceTest\\out\\log\\LogFile.txt");
+            ch = new FileHandler("..\\AndroidPerformanceTest\\out\\log\\LogFile.txt");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ch.setFormatter(new LogFormatter());
         logobject.addHandler(ch);
-        return logobject;
     }
+
+
 }
