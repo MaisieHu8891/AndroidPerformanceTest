@@ -10,10 +10,13 @@ public class ExecTest {
         filePath.mkdirs();
         ExecCpu ec = new ExecCpu();
         ExecMemery em = new ExecMemery();
+        ExecNetWorkFlow en = new ExecNetWorkFlow();
         Thread cputhread = new Thread(ec);
         Thread memthread = new Thread(em);
+        Thread netthread = new Thread(en);
         cputhread.start();
         memthread.start();
+        netthread.start();
         ec.framecpu.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowevent) {
                 try {
@@ -32,6 +35,16 @@ public class ExecTest {
                     e.printStackTrace();
                 }
                 em.exit = true;
+            }
+        });
+        en.framenetflow.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowevent) {
+                try {
+                    ChartUtils.saveChartAsJPEG(new File(".\\out\\log\\net"+System.currentTimeMillis()+".jpg"), en.tcnetflow.getChart(), 700, 500);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                en.exit = true;
             }
         });
     }

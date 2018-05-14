@@ -53,7 +53,7 @@ class ExecMemery implements Runnable {
 
 
 class ExecNetWorkFlow implements Runnable {
-    NetFlowTimeChart tcnetflow = new NetFlowTimeChart("netflow", "com.panda.videoliveplatform", "netflow");
+    NetFlowTimeChart tcnetflow = new NetFlowTimeChart("rxbytes","txbytes","com.panda.videoliveplatform", "NetFlow");
     JFrame framenetflow = new JFrame("NetFlow Test");
     boolean exit = false;
     public ExecNetWorkFlow() throws Exception {
@@ -66,8 +66,8 @@ class ExecNetWorkFlow implements Runnable {
         while (!exit) {
             try {
                 int[] netnum = tcnetflow.NetNum();
-                tcnetflow.timeSeries.add(new Millisecond(), netnum[0]);
-                tcnetflow.timeSeries.addOrUpdate(new Millisecond(), netnum[1]);
+                tcnetflow.timeSeriesrx.add(new Millisecond(), netnum[0]);
+                tcnetflow.timeSeriestx.add(new Millisecond(), netnum[1]);
                 Thread.sleep(1500);
             } catch (Exception e) {
                 e.printStackTrace();

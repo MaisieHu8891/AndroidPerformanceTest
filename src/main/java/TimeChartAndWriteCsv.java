@@ -85,7 +85,8 @@ class MemTimeChart extends ChartPanel {
 
 class NetFlowTimeChart extends ChartPanel {
 
-    static TimeSeries timeSeries;
+    static TimeSeries timeSeriesrx;
+    static TimeSeries timeSeriestx;
     static Double timeInterval = 3600000D;
     String[] netheader ={"DateTime","NetWorkFlow_rxbytes","NetWorkFlow_txbytes"};
     WriteLogFiles netfile = new WriteLogFiles(".\\out\\log\\net"+System.currentTimeMillis()+".csv",netheader);
@@ -95,14 +96,17 @@ class NetFlowTimeChart extends ChartPanel {
     String userid = GU.GetAppUserID();
     GetNetWorkFlow getnetdata = new GetNetWorkFlow(userid);
 
-    public NetFlowTimeChart(String chartContent, String title, String yaxisName) throws Exception {
-        super(createChart(chartContent, title, yaxisName));
+    public NetFlowTimeChart(String chartContentrx,String chartContenttx, String title, String yaxisName) throws Exception {
+        super(createChart(chartContentrx,chartContenttx, title, yaxisName));
     }
 
-    public static JFreeChart createChart(String chartContent, String title, String yaxisName) {
-        timeSeries = new TimeSeries(chartContent);//, Millisecond.class
-        TimeSeriesCollection timeseriescollection = new TimeSeriesCollection(timeSeries);
-        JFreeChart jfreechart = ChartFactory.createTimeSeriesChart(title, "Time", yaxisName, timeseriescollection, true, true, false);
+    public static JFreeChart createChart(String chartContentrx,String chartContenttx, String title, String yaxisName) {
+        timeSeriesrx = new TimeSeries(chartContentrx);//, Millisecond.class
+        timeSeriestx = new TimeSeries(chartContenttx);//, Millisecond.class
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        dataset.addSeries(timeSeriesrx);
+        dataset.addSeries(timeSeriestx);
+        JFreeChart jfreechart = ChartFactory.createTimeSeriesChart(title, "Time", yaxisName, dataset, true, true, false);
         XYPlot xyplot = jfreechart.getXYPlot();
 //纵坐标设定
         ValueAxis valueaxis = xyplot.getDomainAxis();
