@@ -9,7 +9,7 @@ class GetNetWorkFlow {
       String[] netinfo = GetCmmandInfo.appInfo("adb shell cat /proc/net/xt_qtaguid/stats|grep "+userId);
       NetData[0] = netinfo[0];
       String line = netinfo[1]; //从1开始，第6个数是rx_bytes接收数据, 第8个数是tx_bytes传输数据
-      LoggerUse.logobject.info("网络传输数据："+"\n"+line+'\n');
+//      LoggerUse.logobject.info("网络传输数据："+"\n"+line+'\n');
       return line;
     }
     public String[] data(String line){
