@@ -9,7 +9,7 @@ class GetNetWorkFlow {
       String[] netinfo = GetCmmandInfo.appInfo("adb shell cat /proc/net/xt_qtaguid/stats|grep "+userId);
       NetData[0] = netinfo[0];
       String line = netinfo[1]; //从1开始，第6个数是rx_bytes接收数据, 第8个数是tx_bytes传输数据
-//      LoggerUse.logobject.info("网络传输数据："+"\n"+line+'\n');
+//    LoggerUse.logobject.info("网络传输数据："+"\n"+line+'\n');
       return line;
     }
     public String[] data(String line){
@@ -17,10 +17,14 @@ class GetNetWorkFlow {
         String[] tmpline = line.split("\n");
         for (String i :tmpline){
             String[] itmp = i.split(" ");
-            //LoggerUse.logobject.info("rxbytes:"+itmp[5]+" and tx_bytes:"+itmp[7]);
-            rtdata[0]+= Integer.parseInt(itmp[5]);
-            rtdata[1]+= Integer.parseInt(itmp[7]);
-            //从0开始，第5个数是rx_bytes接收数据, 第7个数是tx_bytes传输数据
+            if (itmp.length>1){
+                //添加空行判断
+                rtdata[0]+= Integer.parseInt(itmp[5]);
+                rtdata[1]+= Integer.parseInt(itmp[7]);//从0开始，第5个数是rx_bytes接收数据, 第7个数是tx_bytes传输数据
+//              LoggerUse.logobject.info("rxbytes:"+itmp[5]+" and tx_bytes:"+itmp[7]);
+            }
+            else
+                continue;
         }
         NetData[1] = Integer.toString(rtdata[0]);
         NetData[2] = Integer.toString(rtdata[1]);
