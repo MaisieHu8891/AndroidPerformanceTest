@@ -1,4 +1,4 @@
-
+import utilclass.GetCmmandInfo;
 class GetNetWorkFlow {
     private String userId;
     private String[] NetData = new String[3];
@@ -71,4 +71,4 @@ class GetMEM {
     }
 }
 
-public class  GetData{}
+public class  GetPerforData{}

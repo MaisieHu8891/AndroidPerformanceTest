@@ -8,6 +8,9 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import java.io.IOException;
 
+import utilclass.GetUniversalInfo;
+import utilclass.WriteLogFiles;
+
 class CpuTimeChart extends ChartPanel {
     static TimeSeries timeSeries;
     static Double timeInterval = 3600000D;

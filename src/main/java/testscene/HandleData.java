@@ -1,4 +1,6 @@
 package testscene;
+import utilclass.CmdAdb;
+import utilclass.WriteLogFiles;
 import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,21 +25,21 @@ public class HandleData {
     public void filterData(String[] keys,String filterpath) throws IOException {
         RandomAccessFile raf=new RandomAccessFile (this.filepath,"r");
         String str = null;
+        WriteLogFiles wcsv = new WriteLogFiles(filterpath,keys);
         for (String i : keys){
             while ((str = raf.readLine()) != null) {
                 String keyreg ="(.*)"+i+"(.*)";
                 if(str.matches(keyreg)){
-                    System.out.println(str);
                     String[] tmparray =str.split(" == ");
                     String wkey = tmparray[0];
-                    String wvalue = tmparray[1];
-                    System.out.println(wkey);
-                    System.out.println(wvalue);
+                    String wvalue = tmparray[1];;
                     Pattern p=Pattern.compile(":\\D+");
                     Matcher m=p.matcher(wkey);
+                    m.find(); //需要先执行find函数才能找到
                     wkey = m.group();
                     System.out.println(wkey);
                     System.out.println(wvalue);
+
 
 
                 }
