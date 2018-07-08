@@ -4,7 +4,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class ExecTest {
+public class ExecPerfTest {
     public static void main(String[] args) throws Exception {
         File filePath = new File(".\\out\\log");
         filePath.mkdirs();
