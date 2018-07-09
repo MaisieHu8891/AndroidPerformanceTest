@@ -1,4 +1,7 @@
 package testscene;
+import org.apache.commons.csv.CSVPrinter;
+import utilclass.CmdAdb;
+import utilclass.WriteLogFiles;
 import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,6 +24,9 @@ public class HandleData {
 
     //String[] key 传多个关键字列表  要求data是 key === data 格式
     public void filterData(String[] keys,String filterpath) throws IOException {
+        String[] wcsvhead = {"key","value"};
+        WriteLogFiles wcsv = new WriteLogFiles(filterpath,wcsvhead);
+        CSVPrinter printercsv = wcsv.initPrinter();
         RandomAccessFile raf=new RandomAccessFile (this.filepath,"r");
         String str = null;
         for (String i : keys){
@@ -29,22 +35,18 @@ public class HandleData {
                 if(str.matches(keyreg)){
                     System.out.println(str);
                     String[] tmparray =str.split(" == ");
-                    String wkey = tmparray[0];
                     String wvalue = tmparray[1];
-                    System.out.println(wkey);
-                    System.out.println(wvalue);
+                    String wkey = tmparray[0];
                     Pattern p=Pattern.compile(":\\D+");
                     Matcher m=p.matcher(wkey);
+                    m.find(); //需要先执行find函数才能找到
                     wkey = m.group();
-                    System.out.println(wkey);
-                    System.out.println(wvalue);
-
-
+                    String[] resstr = {wkey,wvalue};
+                    wcsv.doWrite(printercsv,resstr);
                 }
             }
             raf.seek(0);
 
-            //System.out.println(str);
         }
         raf.close();
     }

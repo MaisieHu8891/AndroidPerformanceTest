@@ -1,3 +1,6 @@
+package utilclass;
+
+
 public class GetUniversalInfo {
     public GetUniversalInfo(){};
 

@@ -1,10 +1,13 @@
+package utilclass;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-class WriteLogFiles {
+public class WriteLogFiles {
 
     String filePath;
     String[] headers;
@@ -32,4 +35,3 @@ class WriteLogFiles {
         printer.flush();
     }
 }
-
