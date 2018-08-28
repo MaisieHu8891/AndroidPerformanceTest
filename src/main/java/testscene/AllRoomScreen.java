@@ -18,16 +18,16 @@ public class AllRoomScreen extends AbstractScreen {
 
     public void ioRoom() throws InterruptedException {
         Thread.sleep(7000);
-        int page = 10;
+        int page = 1;
         while (page != 0){
             Thread.sleep(3000);
             int mesize = roomElements.size();
             for(MobileElement m :roomElements){
                 m.click();
-                Thread.sleep(2000);
-                if(chinajoyclose != null){
-                    driver.navigate().back();
-                }
+                Thread.sleep(4000);
+//                if(chinajoyclose != null){
+//                    driver.navigate().back();
+//                }
                 driver.navigate().back();
                 System.out.println(mesize);
                 if (mesize == 1){

@@ -11,4 +11,8 @@ public class VideoLivePlatform {
     public AllRoomScreen allroomScreen() {
         return new AllRoomScreen(driver);
     }
+
+    public CheckAD checkAD() {
+        return new CheckAD(driver);
+    }
 }
