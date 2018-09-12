@@ -16,9 +16,9 @@ public class HandleData {
     }
 
     public void getdata() throws IOException, InterruptedException {
-        String[] cmdstr = {"adb", "shell", "logcat", "|grep miaokai"};
-        CmdAdb ca = new CmdAdb();
-        ca.executeCMDfile(cmdstr, this.filepath);
+        String cmdstr = "adb shell logcat |grep miaokai";
+        CmdAdb ca = new CmdAdb(cmdstr);
+        ca.executeCMDfile(this.filepath);
 
     }
 
@@ -37,7 +37,10 @@ public class HandleData {
                     String[] tmparray =str.split(" == ");
                     String wvalue = tmparray[1];
                     String wkey = tmparray[0];
+                    //android格式：
                     Pattern p=Pattern.compile(":\\D+");
+                    //IOS格式：
+//                    Pattern p=Pattern.compile(",\\s\\D+");
                     Matcher m=p.matcher(wkey);
                     m.find(); //需要先执行find函数才能找到
                     wkey = m.group();

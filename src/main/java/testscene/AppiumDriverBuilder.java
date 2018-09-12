@@ -19,8 +19,8 @@ public abstract class AppiumDriverBuilder<SELF, DRIVER extends AppiumDriver<?>> 
         public AndroidDriver<?> build(String appPackage,String appActivity) {
             capabilities.setCapability("platformName", "Android");
 //            capabilities.setCapability("deviceName", "cb476a38");
-            capabilities.setCapability("deviceName", "be26dd89");
-            capabilities.setCapability("platformVersion", "6.0.1");
+            capabilities.setCapability("deviceName", "cb476a38");
+            capabilities.setCapability("platformVersion", "7.1.1");
             //通过newcommandtimeout将超时时间改长
             capabilities.setCapability("newCommandTimeout","600000");
             //不重新安装应用

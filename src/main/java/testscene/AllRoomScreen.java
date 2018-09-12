@@ -18,7 +18,7 @@ public class AllRoomScreen extends AbstractScreen {
 
     public void ioRoom() throws InterruptedException {
         Thread.sleep(7000);
-        int page = 1;
+        int page = 17;
         while (page != 0){
             Thread.sleep(3000);
             int mesize = roomElements.size();
