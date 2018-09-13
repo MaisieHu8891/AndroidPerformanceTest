@@ -18,7 +18,8 @@ public class GetAppUtilInfo {
     public String GetAppUserID()  {
         try {
             String userIdinfo= new CmdAdb("adb shell dumpsys package com.panda.videoliveplatform|grep userId").getAppCmdInfo()[1];
-            return new PatternRule().regStr(userIdinfo, "\\d+");
+            String userId = new PatternRule().regStr(userIdinfo, "\\d+");
+            return userId;
         } catch (Exception e){
             System.out.println("获取应用userid失败");
             return null;
