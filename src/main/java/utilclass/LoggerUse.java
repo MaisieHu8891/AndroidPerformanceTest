@@ -1,9 +1,11 @@
+package utilclass;
+
 import java.io.IOException;
 import java.util.logging.*;
 
 
 public class LoggerUse {
-    static Logger logobject = Logger.getLogger("logobject ");
+    public static Logger logobject = Logger.getLogger("logobject ");
 
     static class LogFormatter extends Formatter{
         @Override
