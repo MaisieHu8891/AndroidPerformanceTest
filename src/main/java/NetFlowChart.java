@@ -1,75 +1,52 @@
 import org.apache.commons.csv.CSVPrinter;
-import org.jfree.chart.ChartUtils;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.TimeSeries;
 import utilclass.WriteLogFiles;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
 
 public class NetFlowChart implements Runnable{
-
     private String userId;
-    private Boolean runStatus;
     private String testTitle;
-    private String chartImgFilePath;
-    private ChartViewPanel netFlowPanel;
-    private static String[] netFlowCsvHeader = {"DateTime", "NetWorkFlow_rxbytes","NetWorkFlow_txbytes"};
-    private static WriteLogFiles netFlowCsvFile = new WriteLogFiles(".\\out\\log\\NetFlow"+System.currentTimeMillis()+".csv",netFlowCsvHeader);
-    private static CSVPrinter netFlowPrinter = netFlowCsvFile.initPrinter();
+    private ChartViewJFrame netViewJFrame;
+    private TimeSeries timeSeriesrx;
+    private TimeSeries timeSeriestx;
+    private static String[] netCsvHeader = {"DateTime", "NetFlow_rxbytes", "NetFlow_txbytes"};
+    private static WriteLogFiles netCsvFile = new WriteLogFiles(".\\out\\log\\NetFlow"+System.currentTimeMillis()+".csv",netCsvHeader);
+    private static CSVPrinter netPrinter = netCsvFile.initPrinter();
 
-    public Boolean getRunStatus() {
-        return runStatus;
-    }
-
-    public void setRunStatus(Boolean runStatus) {
-        this.runStatus = runStatus;
-    }
-
-    public NetFlowChart(String userId,String testTitle,String chartImgFilePath) {
+    public NetFlowChart( String userId,String testTitle) {
         this.userId = userId;
         this.testTitle = testTitle;
-        this.chartImgFilePath = chartImgFilePath;
+        ChartViewJFreeChart netViewJFreeChart = new ChartViewJFreeChart();
+        netViewJFreeChart.setTimeInterval(3600000D);
+        JFreeChart netJFreeChart = netViewJFreeChart.createTwoDataChart("NetFlow_rxbytes", "NetFlow_txbytes","com.panda.videoliveplatform","NetFlow");
+        this.timeSeriesrx = netViewJFreeChart.getTimeSeriesrx();
+        this.timeSeriestx = netViewJFreeChart.getTimeSeriestx();
+        this.netViewJFrame = new ChartViewJFrame(new ChartPanel(netJFreeChart), ".\\out\\log\\NetFlow"+System.currentTimeMillis()+".jpg",true);
+        this.netViewJFrame.setjFrame(new JFrame(this.testTitle));
     }
 
-    public void setNetFlowPanel(ChartViewPanel netFlowPanel) {
-        this.netFlowPanel = netFlowPanel;
-        JFrame jFrame = new JFrame(testTitle);
-        jFrame.getContentPane().add(netFlowPanel, new BorderLayout().CENTER);
-        jFrame.pack();
-        jFrame.setVisible(true);
-        jFrame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowevent) {
-                try {
-                    ChartUtils.saveChartAsJPEG(new File(chartImgFilePath), netFlowPanel.getChart(), 700, 500);
-                    runStatus = !runStatus;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    public Boolean getRunStatus() {
+        return this.netViewJFrame.getRunStatus();
     }
 
     @Override
     public void run() {
         while (this.getRunStatus()){
             try {
-                String[] netFlowInfo = new GetPerforData().GetNetWorkFlow(userId);
-                netFlowCsvFile.doWrite(netFlowPrinter,netFlowInfo);
-                Integer netFlownumrx = Integer.parseInt(netFlowInfo[1]);
-                Integer netFlownumtx = Integer.parseInt(netFlowInfo[2]);
-                netFlowPanel.timeSeriesrx.add(new Millisecond(), netFlownumrx);
-                netFlowPanel.timeSeriestx.add(new Millisecond(), netFlownumtx);
+                String[] netInfo = new GetPerforData().GetNetWorkFlow(userId);
+                netCsvFile.doWrite(netPrinter,netInfo);
+                Integer netRxbytes = Integer.parseInt(netInfo[1]);
+                Integer netTxbytes = Integer.parseInt(netInfo[2]);
+                timeSeriesrx.add(new Millisecond(), netRxbytes);
+                timeSeriestx.add(new Millisecond(), netTxbytes);
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 System.out.println("记录内存信息出错");
             }
-
         }
     }
-
 }
