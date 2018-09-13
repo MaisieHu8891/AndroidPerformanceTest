@@ -12,6 +12,7 @@ public class NetFlowChart implements Runnable{
     private ChartViewJFrame netViewJFrame;
     private TimeSeries timeSeriesrx;
     private TimeSeries timeSeriestx;
+    private GetPerforData getPerforData;
     private static String[] netCsvHeader = {"DateTime", "NetFlow_rxbytes", "NetFlow_txbytes"};
     private static WriteLogFiles netCsvFile = new WriteLogFiles(".\\out\\log\\NetFlow"+System.currentTimeMillis()+".csv",netCsvHeader);
     private static CSVPrinter netPrinter = netCsvFile.initPrinter();
@@ -26,6 +27,7 @@ public class NetFlowChart implements Runnable{
         this.timeSeriestx = netViewJFreeChart.getTimeSeriestx();
         this.netViewJFrame = new ChartViewJFrame(new ChartPanel(netJFreeChart), ".\\out\\log\\NetFlow"+System.currentTimeMillis()+".jpg",true);
         this.netViewJFrame.setjFrame(new JFrame(this.testTitle));
+        this.getPerforData = new GetPerforData();
     }
 
     public Boolean getRunStatus() {
@@ -36,7 +38,7 @@ public class NetFlowChart implements Runnable{
     public void run() {
         while (this.getRunStatus()){
             try {
-                String[] netInfo = new GetPerforData().GetNetWorkFlow(userId);
+                String[] netInfo = getPerforData.GetNetWorkFlow(userId);
                 netCsvFile.doWrite(netPrinter,netInfo);
                 Integer netRxbytes = Integer.parseInt(netInfo[1]);
                 Integer netTxbytes = Integer.parseInt(netInfo[2]);

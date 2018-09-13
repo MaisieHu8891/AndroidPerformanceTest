@@ -11,6 +11,7 @@ public class MemoryChart implements Runnable {
     private String testTitle;
     private ChartViewJFrame memViewJFrame;
     private TimeSeries timeSeries;
+    private GetPerforData getPerforData;
     private static String[] memCsvHeader = {"DateTime", "Memory"};
     private static WriteLogFiles memCsvFile = new WriteLogFiles(".\\out\\log\\Memory"+System.currentTimeMillis()+".csv",memCsvHeader);
     private static CSVPrinter memPrinter = memCsvFile.initPrinter();
@@ -23,6 +24,7 @@ public class MemoryChart implements Runnable {
         this.timeSeries = memViewJFreeChart.getTimeSeries();
         this.memViewJFrame = new ChartViewJFrame(new ChartPanel(memJFreeChart), ".\\out\\log\\Memory"+System.currentTimeMillis()+".jpg",true);
         this.memViewJFrame.setjFrame(new JFrame(this.testTitle));
+        this.getPerforData = new GetPerforData();
     }
 
     public Boolean getRunStatus() {
@@ -33,7 +35,7 @@ public class MemoryChart implements Runnable {
     public void run() {
         while (this.getRunStatus()){
             try {
-                String[] memInfo = new GetPerforData().GetMEM();
+                String[] memInfo =getPerforData.GetMEM();
                 memCsvFile.doWrite(memPrinter,memInfo);
                 Integer memNum = Integer.parseInt(memInfo[1]);
                 timeSeries.add(new Millisecond(), memNum);

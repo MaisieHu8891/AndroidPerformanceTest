@@ -12,6 +12,7 @@ public class CpuChart implements Runnable  {
     private String testTitle;
     private ChartViewJFrame cpuViewJFrame;
     private TimeSeries timeSeries;
+    private GetPerforData getPerforData;
     private static String[] cpuCsvHeader = {"DateTime", "CPU"};
     private static WriteLogFiles cpuCsvFile = new WriteLogFiles(".\\out\\log\\CPU"+System.currentTimeMillis()+".csv",cpuCsvHeader);
     private static CSVPrinter cpuPrinter = cpuCsvFile.initPrinter();
@@ -26,6 +27,7 @@ public class CpuChart implements Runnable  {
         this.timeSeries = cpuViewJFreeChart.getTimeSeries();
         this.cpuViewJFrame = new ChartViewJFrame(new ChartPanel(cpuJFreeChart), ".\\out\\log\\CPU"+System.currentTimeMillis()+".jpg",true);
         this.cpuViewJFrame.setjFrame(new JFrame(this.testTitle));
+        this.getPerforData = new GetPerforData();
     }
 
     public Boolean getRunStatus() {
@@ -36,7 +38,7 @@ public class CpuChart implements Runnable  {
     public void run() {
         while (this.getRunStatus()){
             try {
-                String[] cpuInfo = new GetPerforData().GetCPU(ver,pid);
+                String[] cpuInfo = getPerforData.GetCPU(ver,pid);
                 cpuCsvFile.doWrite(cpuPrinter,cpuInfo);
                 Double cpunum = Double.parseDouble(cpuInfo[1]);
                 timeSeries.add(new Millisecond(), cpunum);

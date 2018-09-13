@@ -1,4 +1,5 @@
 import utilclass.CmdAdb;
+import utilclass.LoggerUse;
 import utilclass.PatternRule;
 
 
@@ -53,7 +54,7 @@ public class  GetPerforData{
             String[] netinfo = new CmdAdb("adb shell cat /proc/net/xt_qtaguid/stats|grep " + userId).getAppCmdInfo();
             NetData[0] = netinfo[0];
             String line = netinfo[1];//从1开始，第6个数是rx_bytes接收数据, 第8个数是tx_bytes传输数据
-            //LoggerUse.logobject.info("网络传输数据："+"\n"+line+'\n');
+            //utilclass.LoggerUse.logobject.info("网络传输数据："+"\n"+line+'\n');
             int[] rtdata = new int[2];
             String[] tmpline = line.split("\n");
             for (String i :tmpline){
@@ -61,7 +62,7 @@ public class  GetPerforData{
                 if (itmp.length>1){
                     rtdata[0]+= Integer.parseInt(itmp[5]);
                     rtdata[1]+= Integer.parseInt(itmp[7]);//从0开始，第5个数是rx_bytes接收数据, 第7个数是tx_bytes传输数据
-                    //LoggerUse.logobject.info("rxbytes:"+itmp[5]+" and tx_bytes:"+itmp[7]);
+                    //utilclass.LoggerUse.logobject.info("rxbytes:"+itmp[5]+" and tx_bytes:"+itmp[7]);
                 }
                 else
                     continue;
