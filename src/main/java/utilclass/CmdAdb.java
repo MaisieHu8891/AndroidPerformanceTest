@@ -27,11 +27,12 @@ public class CmdAdb {
         }
     }
 
-    public String executeCMDfile(String[] cmmands,String logToFilePath) throws IOException {
+    public String executeCMDfile(String[] cmmands,String dirTodoCMD,String logToFilePath) throws IOException {
+        //logToFilePath 写全包括dirTodoCMD的路径
         try {
-            ProcessBuilder builder = new ProcessBuilder(cmmands+ " > "+logToFilePath);
-//            if (dirTodoCMD != null)
-//                builder.directory(new File(dirTodoCMD));
+            ProcessBuilder builder = new ProcessBuilder(cmmands);
+            if (dirTodoCMD != null)
+                builder.directory(new File(dirTodoCMD));
             builder.redirectErrorStream(true);
             builder.redirectOutput(new File(logToFilePath));
             Process process = builder.start();
