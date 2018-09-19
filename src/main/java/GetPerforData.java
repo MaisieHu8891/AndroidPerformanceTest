@@ -10,7 +10,7 @@ public class  GetPerforData{
         if (ver >= 8) {
             //增加支持android8.0系统的cpu获取
             try {
-                cpuinfo = new CmdAdb("adb shell top -n 1|grep " + pid).getAppCmdInfo();
+                cpuinfo = new CmdAdb().getAppCmdInfo("adb shell top -n 1|grep " + pid);
                 cpuinfo[1] = cpuinfo[1].split("\\s+")[9];
                 LoggerUse.logobject.info("CPU百分比："+cpuinfo[1]+"%");
             } catch (Exception e) {
@@ -19,7 +19,7 @@ public class  GetPerforData{
             }
         } else if(ver > 0) {
             try {
-                cpuinfo = new CmdAdb("adb shell top -n 1|grep com.panda.videoliveplatform").getAppCmdInfo();
+                cpuinfo = new CmdAdb().getAppCmdInfo("adb shell top -n 1|grep com.panda.videoliveplatform");
                 String cpunumber = cpuinfo[1];
                 String rscpu =new PatternRule().regStr(cpunumber, "\\d+%");
                 cpuinfo[1] = rscpu.substring(0, rscpu.length() - 1);
@@ -38,7 +38,7 @@ public class  GetPerforData{
     public String[] GetMEM() {
         String[] meminfo = new String[2];
         try {
-            meminfo = new CmdAdb("adb shell dumpsys meminfo com.panda.videoliveplatform|grep TOTAL").getAppCmdInfo();
+            meminfo = new CmdAdb().getAppCmdInfo("adb shell dumpsys meminfo com.panda.videoliveplatform|grep TOTAL");
             meminfo[1] = meminfo[1].split("\\s+")[2];
             LoggerUse.logobject.info("内存占用:"+meminfo[1]+"KB");
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class  GetPerforData{
 
     public String[] GetNetWorkFlow(String userId) {
         String[] NetData = new String[3];
-        String[] netinfo = new CmdAdb("adb shell cat /proc/net/xt_qtaguid/stats|grep " + userId).getAppCmdInfo();
+        String[] netinfo = new CmdAdb().getAppCmdInfo("adb shell cat /proc/net/xt_qtaguid/stats|grep " + userId);
         NetData[0] = netinfo[0];
         String line = netinfo[1];//从1开始，第6个数是rx_bytes接收数据, 第8个数是tx_bytes传输数据
         if (line.length() == 0){
