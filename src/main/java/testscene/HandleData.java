@@ -17,8 +17,8 @@ public class HandleData {
 
     public void getdata() throws IOException, InterruptedException {
         String cmdstr = "adb shell logcat |grep miaokai";
-        CmdAdb ca = new CmdAdb(cmdstr);
-        ca.executeCMDfile(this.filepath);
+        CmdAdb ca = new CmdAdb();
+//        ca.executeCMDfile(cmdstr,this.filepath);
 
     }
 

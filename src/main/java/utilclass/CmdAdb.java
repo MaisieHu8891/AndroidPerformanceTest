@@ -10,16 +10,12 @@ import java.util.Date;
 
 public class CmdAdb {
 
-    private String cmmand;
-    public CmdAdb(String cmmand){
-        this.cmmand = cmmand;
-    }
 
-    public void executeCMDconsole() {
-        System.out.println("在cmd里面输入"+this.cmmand);
+    public void executeCMDconsole(String cmmand) {
+        System.out.println("在cmd里面输入"+cmmand);
         Process p;
         try {
-            p = Runtime.getRuntime().exec(this.cmmand);
+            p = Runtime.getRuntime().exec(cmmand);
             System.out.println(":::::::::::::::::::开始在控制台打印日志::::::::::::::::::::::>>>>>>");
             //p.waitFor();
             BufferedReader bReader=new BufferedReader(new InputStreamReader(p.getInputStream(),"gbk"));
@@ -31,9 +27,9 @@ public class CmdAdb {
         }
     }
 
-    public String executeCMDfile(String logToFilePath) throws IOException {
+    public String executeCMDfile(String[] cmmands,String logToFilePath) throws IOException {
         try {
-            ProcessBuilder builder = new ProcessBuilder(this.cmmand + " > "+logToFilePath);
+            ProcessBuilder builder = new ProcessBuilder(cmmands+ " > "+logToFilePath);
 //            if (dirTodoCMD != null)
 //                builder.directory(new File(dirTodoCMD));
             builder.redirectErrorStream(true);
@@ -57,10 +53,10 @@ public class CmdAdb {
         return null;
     }
 
-    public  String[] getAppCmdInfo(){
+    public  String[] getAppCmdInfo(String cmmand){
         BufferedReader br = null;
         try {
-            Process p = Runtime.getRuntime().exec(this.cmmand);
+            Process p = Runtime.getRuntime().exec(cmmand);
             br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
             StringBuilder sb = new StringBuilder();
