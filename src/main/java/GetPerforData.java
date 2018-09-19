@@ -56,20 +56,20 @@ public class  GetPerforData{
         if (line.length() == 0){
             System.out.println("网络传输数据获取失败");
         }else {
-            int[] rtdata = new int[2];
+            long[] rtdata = new long[2];
             String[] tmpline = line.split("\n");
             for (String i :tmpline){
                 String[] itmp = i.split(" ");
                 if (itmp.length>1){
-                    rtdata[0]+= Integer.parseInt(itmp[5]);
-                    rtdata[1]+= Integer.parseInt(itmp[7]);//从0开始，第5个数是rx_bytes接收数据, 第7个数是tx_bytes传输数据
+                    rtdata[0]+= Long.parseLong(itmp[5]);
+                    rtdata[1]+= Long.parseLong(itmp[7]);//从0开始，第5个数是rx_bytes接收数据, 第7个数是tx_bytes传输数据
                     //LoggerUse.logobject.info("rxbytes:"+itmp[5]+" and tx_bytes:"+itmp[7]);
                 } else{
                     continue;
                 }
             }
-            NetData[1] = Integer.toString(rtdata[0]);
-            NetData[2] = Integer.toString(rtdata[1]);
+            NetData[1] = Long.toString(rtdata[0]);
+            NetData[2] = Long.toString(rtdata[1]);
             LoggerUse.logobject.info("网络接收/传输byte: "+ NetData[1] + "  tx_bytes:"+NetData[2]);
         }
         return NetData ;

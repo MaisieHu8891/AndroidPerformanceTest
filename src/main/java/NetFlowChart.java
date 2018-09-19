@@ -40,8 +40,8 @@ public class NetFlowChart implements Runnable{
             try {
                 String[] netInfo = getPerforData.GetNetWorkFlow(userId);
                 netCsvFile.doWrite(netPrinter,netInfo);
-                Integer netRxbytes = Integer.parseInt(netInfo[1]);
-                Integer netTxbytes = Integer.parseInt(netInfo[2]);
+                long netRxbytes = Long.parseLong(netInfo[1]);
+                long netTxbytes = Long.parseLong(netInfo[2]);
                 timeSeriesrx.add(new Millisecond(), netRxbytes);
                 timeSeriestx.add(new Millisecond(), netTxbytes);
                 Thread.sleep(1500);
