@@ -1,12 +1,8 @@
 import utilclass.GetAppUtilInfo;
-
 import java.io.File;
 
-
 public class ExecPerfTest {
-
     public static void main(String[] args) {
-
         File filePath = new File(".\\out\\log");
         filePath.mkdirs();
         GetAppUtilInfo GU = new GetAppUtilInfo();
