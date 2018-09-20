@@ -1,12 +1,10 @@
-import testscene.HandleData;
+import utilclass.CmdAdb;
 
 import java.io.IOException;
 
 public class UnitTest {
-    public static void main(String[] args) throws InterruptedException, IOException {
-        HandleData d = new HandleData("D:\\TEST\\androidtestbuildapk\\logcat\\logcattest.txt");
-//        d.getdata();
-        String[] keys = {"miaokai test time except Network Connection","miaokai test total time"};
-//        d.filterData(keys,"D:\\TEST\\androidtestbuildapk\\logcat\\logcat.csv");
+    public static void main(String[] args) throws IOException {
+        String[] cmds = {"adb", "shell", "dumpsys", "gfxinfo", "com.panda.videoliveplatform", "framestats"};
+        new CmdAdb().executeCMDfile(cmds, "D:\\coding\\IdeaProjects\\PandaTest\\AndroidPerformanceTest\\out\\log\\","D:\\coding\\IdeaProjects\\PandaTest\\AndroidPerformanceTest\\out\\log\\framestats.txt");
     }
 }
