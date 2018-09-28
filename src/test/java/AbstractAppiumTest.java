@@ -5,7 +5,7 @@ import org.junit.Before;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public abstract class AbstractTest {
+public abstract class AbstractAppiumTest {
     private AppiumDriver<?> driver;
     protected VideoLivePlatform app;
     /* Establish a connection to TestObject, or to a local device test is local. */

@@ -12,22 +12,22 @@ public class CmdAdb {
 
 
     public void executeCMDconsole(String cmmand) {
-        System.out.println("在cmd里面输入"+cmmand);
+        System.out.println("命令是： "+cmmand);
         Process p;
         try {
             p = Runtime.getRuntime().exec(cmmand);
-            System.out.println(":::::::::::::::::::开始在控制台打印日志::::::::::::::::::::::>>>>>>");
+            System.out.println(":::::::::::::::::::开始在控制台打印命令执行结果::::::::::::::::::::::>>>>>>");
             //p.waitFor();
-            BufferedReader bReader=new BufferedReader(new InputStreamReader(p.getInputStream(),"gbk"));
-            String line=null;
-            while((line=bReader.readLine())!=null)
+            BufferedReader bReader = new BufferedReader(new InputStreamReader(p.getInputStream(), "gbk"));
+            String line = null;
+            while ((line = bReader.readLine()) != null)
                 System.out.println(line);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public String executeCMDfile(String[] cmmands,String dirTodoCMD,String logToFilePath) throws IOException {
+    public String executeCMDfile(String[] cmmands, String dirTodoCMD, String logToFilePath) throws IOException {
         //logToFilePath 写全包括dirTodoCMD的路径
         try {
             ProcessBuilder builder = new ProcessBuilder(cmmands);
@@ -54,7 +54,7 @@ public class CmdAdb {
         return null;
     }
 
-    public  String[] getAppCmdInfo(String cmmand){
+    public String[] getAppCmdInfo(String cmmand) {
         BufferedReader br = null;
         try {
             Process p = Runtime.getRuntime().exec(cmmand);

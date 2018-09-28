@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
  * 逻辑操作类
  *
  */
-public class IORoomTest extends AbstractTest {
-    public IORoomTest() {}
+public class IORoomAppiumTest extends AbstractAppiumTest {
+    public IORoomAppiumTest() {}
     /* 一个简单的加法运算,期望结果为正确的值 */
 //    @Test
 //    public void twoPlusTwoOperation() {
