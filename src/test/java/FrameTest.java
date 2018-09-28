@@ -20,6 +20,7 @@ public class FrameTest {
             cmdAdb.executeCMDfile(framestatsCmds,logDir,logPath);
             LoggerUse.logobject.info("frame stats 已经记录到文件中");
 
+
         } else{
             System.out.println("获取app帧率只能在6.0以上的安卓手机，请更换手机");
         }
