@@ -23,7 +23,7 @@ public class HandleData {
     }
 
     public void getdata() throws IOException, InterruptedException {
-        new CmdAdb().executeCMDfile(cmds, filepath, filename);
+        new CmdAdb().executeCMDtofile(cmds, filepath, filename);
     }
 
     //String[] key 传多个关键字列表  要求data是 key ======= data 格式
