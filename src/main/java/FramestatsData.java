@@ -1,3 +1,4 @@
+import org.apache.commons.csv.CSVPrinter;
 import utilclass.WriteLogFiles;
 
 import java.util.HashMap;
@@ -25,10 +26,13 @@ public class FramestatsData {
             "Number_Slow_issue_draw_commands"
     };
     private static WriteLogFiles writeFramestatsfile = new WriteLogFiles(".\\out\\log\\Framestats" + System.currentTimeMillis() + ".csv", framesCsvHeader);
+    private static CSVPrinter writeFramestatsPrinter = writeFramestatsfile.initPrinter();
     private static WriteLogFiles writeJankstatsfile = new WriteLogFiles(".\\out\\log\\Jankstats" + System.currentTimeMillis() + ".csv", jankCsvHeader);
+    private static CSVPrinter writeJankstatsPrinter = writeJankstatsfile.initPrinter();
 
-    public void FrameStats(Long[] args) {
-        Map<String, Long> frameMap = new HashMap();
+
+    public void FrameStats(String[]args) {
+        Map<String, String>frameMap = new HashMap();
         try {
             frameMap.put("Flags", args[0]);
             frameMap.put("IntendedVsync", args[1]);
@@ -47,12 +51,16 @@ public class FramestatsData {
         } catch (Exception e) {
             System.out.print("获取最近120帧的数据PROFILEDATA异常");
         }
+        //String to Long   ---》 Long to String
+        String[] FrameStats = {};
+
+        writeFramestatsfile.doWrite(writeFramestatsPrinter,FrameStats);
 
 
     }
 
-    public void JankyStats(Integer[] args) {
-        Map<String, Integer> jankMap = new HashMap();
+    public void JankyStats(String[] args) {
+        Map<String, String> jankMap = new HashMap();
         try {
             jankMap.put("Total_frames_rendered", args[0]);
             jankMap.put("Janky_frames", args[1]);
@@ -64,6 +72,10 @@ public class FramestatsData {
         } catch (Exception e) {
             System.out.print("获取卡顿数据异常");
         }
+        String[] JankStats = {};
+
+        writeJankstatsfile.doWrite(writeJankstatsPrinter,JankStats);
+
 
 
     }
