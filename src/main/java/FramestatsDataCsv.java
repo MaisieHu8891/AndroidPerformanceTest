@@ -4,7 +4,9 @@ import utilclass.WriteLogFiles;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FramestatsData {
+public class FramestatsDataCsv {
+
+
     private static String[] framesCsvHeader = {
             "AnimationStart-HandleInputStart(处理输入事件的时间(阀值2ms))",
             "PerformTraversalsStart-AnimationStart(运行动画花费的时间(阀值2ms))",
@@ -29,6 +31,7 @@ public class FramestatsData {
     private static CSVPrinter writeFramestatsPrinter = writeFramestatsfile.initPrinter();
     private static WriteLogFiles writeJankstatsfile = new WriteLogFiles(".\\out\\log\\Jankstats" + System.currentTimeMillis() + ".csv", jankCsvHeader);
     private static CSVPrinter writeJankstatsPrinter = writeJankstatsfile.initPrinter();
+
 
 
     public void FrameStats(String[]args) {
@@ -60,24 +63,7 @@ public class FramestatsData {
     }
 
     public void JankyStats(String[] args) {
-        Map<String, String> jankMap = new HashMap();
-        try {
-            jankMap.put("Total_frames_rendered", args[0]);
-            jankMap.put("Janky_frames", args[1]);
-            jankMap.put("Number_Missed_Vsync", args[2]);
-            jankMap.put("Number_High_input_latency", args[3]);
-            jankMap.put("Number_Slow_UI_thread", args[4]);
-            jankMap.put("Number_Slow_bitmap_uploads", args[5]);
-            jankMap.put("Number_Slow_issue_draw_commands", args[6]);
-        } catch (Exception e) {
-            System.out.print("获取卡顿数据异常");
-        }
-        String[] JankStats = {};
-
-        writeJankstatsfile.doWrite(writeJankstatsPrinter,JankStats);
-
-
-
+        writeJankstatsfile.doWrite(writeJankstatsPrinter,args);
     }
 
 
