@@ -7,7 +7,7 @@ public class GetAppUtilInfo {
     public int  GetAndroidVersion(){
         try {
             String verinfo = new CmdAdb().getAppCmdInfo("adb shell getprop ro.build.version.release")[1];
-            String ver = new PatternRule().regStr(verinfo, "\\d?");
+            String ver = new PatternRule().regStr(verinfo, "\\d?", 0);
             int androidVer = Integer.parseInt(ver);
             return androidVer;
         }catch (Exception e){
@@ -18,7 +18,7 @@ public class GetAppUtilInfo {
     public String GetAppUserID()  {
         try {
             String userIdinfo= new CmdAdb().getAppCmdInfo("adb shell dumpsys package com.panda.videoliveplatform|grep userId")[1];
-            String userId = new PatternRule().regStr(userIdinfo, "\\d+");
+            String userId = new PatternRule().regStr(userIdinfo, "\\d+", 0);
             return userId;
         } catch (Exception e){
             System.out.println("获取应用userid失败");

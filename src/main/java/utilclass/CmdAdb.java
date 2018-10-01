@@ -11,23 +11,25 @@ import java.util.Date;
 public class CmdAdb {
 
 
-    public void executeCMDconsole(String cmmand) {
-        System.out.println("在cmd里面输入"+cmmand);
+    public String executeCMDget(String cmmand) {
         Process p;
         try {
             p = Runtime.getRuntime().exec(cmmand);
-            System.out.println(":::::::::::::::::::开始在控制台打印日志::::::::::::::::::::::>>>>>>");
-            //p.waitFor();
-            BufferedReader bReader=new BufferedReader(new InputStreamReader(p.getInputStream(),"gbk"));
-            String line=null;
-            while((line=bReader.readLine())!=null)
-                System.out.println(line);
+            InputStream is = p.getInputStream();
+            BufferedReader bReader = new BufferedReader(new InputStreamReader(is, "gbk"));
+            String line = null;
+            StringBuffer sbBuffer = new StringBuffer();
+            while ((line = bReader.readLine()) != null)
+                sbBuffer.append(line+ "\n");
+            is.close();
+            return sbBuffer.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    public String executeCMDfile(String[] cmmands,String dirTodoCMD,String logToFilePath) throws IOException {
+    public void executeCMDtofile(String[] cmmands, String dirTodoCMD, String logToFilePath) throws IOException {
         //logToFilePath 写全包括dirTodoCMD的路径
         try {
             ProcessBuilder builder = new ProcessBuilder(cmmands);
@@ -37,24 +39,13 @@ public class CmdAdb {
             builder.redirectOutput(new File(logToFilePath));
             Process process = builder.start();
             process.waitFor();
-            // 得到命令执行后的结果
-            InputStream is = process.getInputStream();
-            BufferedReader buffer = new BufferedReader(new InputStreamReader(is, "gbk"));
-            String line = null;
-            StringBuffer sbBuffer = new StringBuffer();
-            while ((line = buffer.readLine()) != null) {
-                sbBuffer.append(line);
-            }
-
-            is.close();
-            return sbBuffer.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+//        return null;
     }
 
-    public  String[] getAppCmdInfo(String cmmand){
+    public String[] getAppCmdInfo(String cmmand) {
         BufferedReader br = null;
         try {
             Process p = Runtime.getRuntime().exec(cmmand);

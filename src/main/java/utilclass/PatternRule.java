@@ -7,11 +7,11 @@ public class PatternRule {
 
     public PatternRule(){}
 
-    public String regStr(String s, String reg) {
+    public String regStr(String s, String reg, int i) {
         Pattern pattern = Pattern.compile(reg);
         Matcher matcher = pattern.matcher(s);
         if (matcher.find()) {
-            String rs = matcher.group();
+            String rs = matcher.group(i);
             return rs;
         } else {
             return null;
