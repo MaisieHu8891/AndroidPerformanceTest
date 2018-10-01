@@ -9,44 +9,42 @@ public class FrameStatsRead {
         this.frameStats = frameStats;
     }
 
-    public String[] JankyStatsData(){
+    public String[] FrameData() {
         PatternRule patternRule = new PatternRule();
+        //注意：下方正则中LiveRoomActivity为待测界面，根据需要修改！！！
+        try {
+            String[] FrameData = patternRule.regStr(frameStats, "LiveRoomActivity([\\s\\S]*)QueueBufferDuration,([\\s\\S]*)---PROFILEDATA---", 2).split("\\n");
+            return FrameData;
+        }catch (Exception e){
+            System.out.println("待测界面消失/app当前不在待测界面");
+            return null;
+        }
 
-        String Total_frames_rendered = patternRule.regStr(frameStats,"Total frames rendered: \\d+");
-        String Total_frames_rendered_value = patternRule.regStr(Total_frames_rendered,"\\d+");
+    }
 
-        String Janky_frames = patternRule.regStr(frameStats,"Janky frames: \\d+");
-        String Janky_frames_value = patternRule.regStr(Janky_frames,"\\d+");
 
-        String Number_Missed_Vsync = patternRule.regStr(frameStats,"Number Missed Vsync: \\d+");
-        String Number_Missed_Vsync_value = patternRule.regStr(Number_Missed_Vsync,"\\d+");
-
-        String Number_High_input_latency = patternRule.regStr(frameStats,"Number High input latency: \\d+");
-        String Number_High_input_latency_value = patternRule.regStr(Number_High_input_latency,"\\d+");
-
-        String Number_Slow_UI_thread = patternRule.regStr(frameStats,"Number Slow UI thread: \\d+");
-        String Number_Slow_UI_thread_value = patternRule.regStr(Number_Slow_UI_thread,"\\d+");
-
-        String Number_Slow_bitmap_uploads = patternRule.regStr(frameStats,"Number Slow bitmap uploads: \\d+");
-        String Number_Slow_bitmap_uploads_value = patternRule.regStr(Number_Slow_bitmap_uploads,"\\d+");
-
-        String Number_Slow_issue_draw_commands = patternRule.regStr(frameStats,"Number Slow issue draw commands: \\d+");
-        String Number_Slow_issue_draw_commands_value = patternRule.regStr(Number_Slow_issue_draw_commands,"\\d+");
-
+    public String[] JankyStatsData() {
+        PatternRule patternRule = new PatternRule();
+        String Total_frames_rendered = patternRule.regStr(frameStats, "Total frames rendered: (\\d+)", 1);
+        String Janky_frames = patternRule.regStr(frameStats, "Janky frames: (\\d+)", 1);
+        String Number_Missed_Vsync = patternRule.regStr(frameStats, "Number Missed Vsync: (\\d+)", 1);
+        String Number_High_input_latency = patternRule.regStr(frameStats, "Number High input latency: (\\d+)", 1);
+        String Number_Slow_UI_thread = patternRule.regStr(frameStats, "Number Slow UI thread: (\\d+)", 1);
+        String Number_Slow_bitmap_uploads = patternRule.regStr(frameStats, "Number Slow bitmap uploads: (\\d+)", 1);
+        String Number_Slow_issue_draw_commands = patternRule.regStr(frameStats, "Number Slow issue draw commands: (\\d+)", 1);
         String[] jankStats = {
-                Total_frames_rendered_value,
-                Janky_frames_value,
-                Number_Missed_Vsync_value,
-                Number_High_input_latency_value,
-                Number_Slow_UI_thread_value,
-                Number_Slow_bitmap_uploads_value,
-                Number_Slow_issue_draw_commands_value
+                Total_frames_rendered,
+                Janky_frames,
+                Number_Missed_Vsync,
+                Number_High_input_latency,
+                Number_Slow_UI_thread,
+                Number_Slow_bitmap_uploads,
+                Number_Slow_issue_draw_commands
         };
 //        LoggerUse.logobject.info("frame stats ：" +frameStats);
-//        for(int i = 0;i<7;i++){
-//            LoggerUse.logobject.info("value" +jankStats[i]);
+//        for (int i = 0; i < 7; i++) {
+//            LoggerUse.logobject.info("value" + jankStats[i]);
 //        }
-
         return jankStats;
 
     }

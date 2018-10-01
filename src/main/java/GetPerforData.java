@@ -21,7 +21,7 @@ public class  GetPerforData{
             try {
                 cpuinfo = new CmdAdb().getAppCmdInfo("adb shell top -n 1|grep com.panda.videoliveplatform");
                 String cpunumber = cpuinfo[1];
-                String rscpu =new PatternRule().regStr(cpunumber, "\\d+%");
+                String rscpu =new PatternRule().regStr(cpunumber, "\\d+%", 0);
                 cpuinfo[1] = rscpu.substring(0, rscpu.length() - 1);
                 LoggerUse.logobject.info("CPU百分比："+cpuinfo[1]+"%");
             }catch (Exception e){
@@ -70,7 +70,7 @@ public class  GetPerforData{
             }
             NetData[1] = Long.toString(rtdata[0]);
             NetData[2] = Long.toString(rtdata[1]);
-            LoggerUse.logobject.info("网络接收/传输byte: "+ NetData[1] + "  tx_bytes:"+NetData[2]);
+            LoggerUse.logobject.info("网络接收byte: "+ NetData[1] + "传输bytes:"+NetData[2]);
         }
         return NetData ;
     }
