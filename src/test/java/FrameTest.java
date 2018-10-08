@@ -18,7 +18,7 @@ public class FrameTest {
         System.out.println("首次获取之前,先重置帧数据...请等待...");
         cmdAdb.executeCMDget(resetgfxinfoCmd);//重置帧信息
         Thread.sleep(10000);
-        System.out.println("开始测试 " + testTime + "分钟...请等待 ");
+        System.out.println("开始测试 " + testTime + "分钟...请等待...(获取的Framestats数据单位是纳秒)");//需在excel里用excel的公式功能除1000000换算成毫秒
         int ver = new GetAppUtilInfo().GetAndroidVersion();
         FramestatsDataCsv framestatsDataCsv = new FramestatsDataCsv();
         if (ver >= 6) {
