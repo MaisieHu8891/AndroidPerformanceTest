@@ -54,14 +54,16 @@ public class FramestatsDataCsv {
                 frameMap.put("FrameCompleted", argsdata[13]);
 
                 String[] frameStats = new String[9];
-                frameStats[0] = String.valueOf(Long.parseLong(frameMap.get("AnimationStart")) - Long.parseLong(frameMap.get("HandleInputStart")));
-                frameStats[1] = String.valueOf(Long.parseLong(frameMap.get("PerformTraversalsStart")) - Long.parseLong(frameMap.get("AnimationStart")));
-                frameStats[2] = String.valueOf(Long.parseLong(frameMap.get("DrawStart")) - Long.parseLong(frameMap.get("PerformTraversalsStart")));
-                frameStats[3] = String.valueOf(Long.parseLong(frameMap.get("SyncStart")) - Long.parseLong(frameMap.get("DrawStart")));
-                frameStats[4] = String.valueOf(Long.parseLong(frameMap.get("SyncStart")) - Long.parseLong(frameMap.get("SyncQueued")));
-                frameStats[5] = String.valueOf(Long.parseLong(frameMap.get("IssueDrawCommandsStart")) - Long.parseLong(frameMap.get("SyncStart")));
-                frameStats[6] = String.valueOf(Long.parseLong(frameMap.get("FrameCompleted")) - Long.parseLong(frameMap.get("IssueDrawCommandsStart")));
-                frameStats[7] = String.valueOf(Long.parseLong(frameMap.get("FrameCompleted")) - Long.parseLong(frameMap.get("IntendedVsync")));
+                //以下long类型数据相减，得值单位是纳秒，除以1000000转换为毫秒
+                frameStats[0] = String.valueOf((Long.parseLong(frameMap.get("AnimationStart")) - Long.parseLong(frameMap.get("HandleInputStart"))) * 1.0 / 1000000);
+                frameStats[1] = String.valueOf((Long.parseLong(frameMap.get("PerformTraversalsStart")) - Long.parseLong(frameMap.get("AnimationStart"))) * 1.0 / 1000000);
+                frameStats[2] = String.valueOf((Long.parseLong(frameMap.get("DrawStart")) - Long.parseLong(frameMap.get("PerformTraversalsStart"))) * 1.0 / 1000000);
+                frameStats[3] = String.valueOf((Long.parseLong(frameMap.get("SyncStart")) - Long.parseLong(frameMap.get("DrawStart"))) * 1.0 / 1000000);
+                frameStats[4] = String.valueOf((Long.parseLong(frameMap.get("SyncStart")) - Long.parseLong(frameMap.get("SyncQueued"))) * 1.0 / 1000000);
+                frameStats[5] = String.valueOf((Long.parseLong(frameMap.get("IssueDrawCommandsStart")) - Long.parseLong(frameMap.get("SyncStart"))) * 1.0 / 1000000);
+                frameStats[6] = String.valueOf((Long.parseLong(frameMap.get("FrameCompleted")) - Long.parseLong(frameMap.get("IssueDrawCommandsStart"))) * 1.0 / 1000000);
+                frameStats[7] = String.valueOf((Long.parseLong(frameMap.get("FrameCompleted")) - Long.parseLong(frameMap.get("IntendedVsync"))) * 1.0 / 1000000);
+                //以下NewestInputEvent不一定存在，该值可能是纳米时间戳，不做额外处理
                 frameStats[8] = String.valueOf(Long.parseLong(frameMap.get("FrameCompleted")) - Long.parseLong(frameMap.get("NewestInputEvent")));
                 writeFramestatsfile.doWrite(writeFramestatsPrinter, frameStats);
             }
