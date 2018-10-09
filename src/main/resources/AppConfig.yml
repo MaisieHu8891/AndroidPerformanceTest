@@ -1,0 +1,4 @@
+# app -- 待得应用包名
+# activity -- FrameTest测试UI帧数据获取时需要，表示待测界面Activity
+app: com.panda.videoliveplatform
+activity: LiveRoomActivity
