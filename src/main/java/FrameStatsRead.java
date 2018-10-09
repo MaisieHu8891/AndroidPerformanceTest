@@ -1,3 +1,4 @@
+import utilclass.AppConfig;
 import utilclass.LoggerUse;
 import utilclass.PatternRule;
 
@@ -10,10 +11,13 @@ public class FrameStatsRead {
     }
 
     public String[] FrameData() {
+        AppConfig appConfig = new AppConfig();
+        appConfig.setMap();
+        String activity = appConfig.getUiActivity();
         PatternRule patternRule = new PatternRule();
         //注意：下方正则中LiveRoomActivity为待测界面，根据需要修改！！！
         try {
-            String[] FrameData = patternRule.regStr(frameStats, "LiveRoomActivity([\\s\\S]*)QueueBufferDuration,([\\s\\S]*)---PROFILEDATA---", 2).split("\\n");
+            String[] FrameData = patternRule.regStr(frameStats, activity+"([\\s\\S]*)QueueBufferDuration,([\\s\\S]*)---PROFILEDATA---", 2).split("\\n");
             return FrameData;
         }catch (Exception e){
             System.out.println("待测界面消失/app当前不在待测界面");

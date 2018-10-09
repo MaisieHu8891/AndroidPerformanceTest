@@ -3,6 +3,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.time.Millisecond;
 import org.jfree.data.time.TimeSeries;
+import utilclass.AppConfig;
 import utilclass.WriteLogFiles;
 import javax.swing.*;
 
@@ -18,11 +19,14 @@ public class NetFlowChart implements Runnable{
     private static CSVPrinter netPrinter = netCsvFile.initPrinter();
 
     public NetFlowChart( String userId,String testTitle) {
+        AppConfig appConfig = new AppConfig();
+        appConfig.setMap();
+        String app = appConfig.getAppName();
         this.userId = userId;
         this.testTitle = testTitle;
         ChartViewJFreeChart netViewJFreeChart = new ChartViewJFreeChart();
         netViewJFreeChart.setTimeInterval(3600000D);
-        JFreeChart netJFreeChart = netViewJFreeChart.createTwoDataChart("NetFlow_rxbytes", "NetFlow_txbytes","com.panda.videoliveplatform","NetFlow");
+        JFreeChart netJFreeChart = netViewJFreeChart.createTwoDataChart("NetFlow_rxbytes", "NetFlow_txbytes",app,"NetFlow");
         this.timeSeriesrx = netViewJFreeChart.getTimeSeriesrx();
         this.timeSeriestx = netViewJFreeChart.getTimeSeriestx();
         this.netViewJFrame = new ChartViewJFrame(new ChartPanel(netJFreeChart), ".\\out\\log\\NetFlow"+System.currentTimeMillis()+".jpg",true);

@@ -1,3 +1,4 @@
+import utilclass.AppConfig;
 import utilclass.CmdAdb;
 import utilclass.LoggerUse;
 import utilclass.PatternRule;
@@ -6,6 +7,9 @@ import utilclass.PatternRule;
 public class  GetPerforData{
 
     public String[] GetCPU(int ver, String pid) {
+        AppConfig appConfig = new AppConfig();
+        appConfig.setMap();
+        String app = appConfig.getAppName();
         String[] cpuinfo = new String[2];
         if (ver >= 8) {
             //增加支持android8.0系统的cpu获取
@@ -19,7 +23,7 @@ public class  GetPerforData{
             }
         } else if(ver > 0) {
             try {
-                cpuinfo = new CmdAdb().getAppCmdInfo("adb shell top -n 1|grep com.panda.videoliveplatform");
+                cpuinfo = new CmdAdb().getAppCmdInfo("adb shell top -n 1|grep "+app);
                 String cpunumber = cpuinfo[1];
                 String rscpu =new PatternRule().regStr(cpunumber, "\\d+%", 0);
                 cpuinfo[1] = rscpu.substring(0, rscpu.length() - 1);
@@ -36,9 +40,12 @@ public class  GetPerforData{
     }
 
     public String[] GetMEM() {
+        AppConfig appConfig = new AppConfig();
+        appConfig.setMap();
+        String app = appConfig.getAppName();
         String[] meminfo = new String[2];
         try {
-            meminfo = new CmdAdb().getAppCmdInfo("adb shell dumpsys meminfo com.panda.videoliveplatform|grep TOTAL");
+            meminfo = new CmdAdb().getAppCmdInfo("adb shell dumpsys meminfo "+app+"|grep TOTAL");
             meminfo[1] = meminfo[1].split("\\s+")[2];
             LoggerUse.logobject.info("内存占用:"+meminfo[1]+"KB");
         } catch (Exception e) {

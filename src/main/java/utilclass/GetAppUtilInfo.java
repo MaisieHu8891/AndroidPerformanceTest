@@ -16,8 +16,11 @@ public class GetAppUtilInfo {
     }
 
     public String GetAppUserID()  {
+        AppConfig appConfig = new AppConfig();
+        appConfig.setMap();
+        String app = appConfig.getAppName();
         try {
-            String userIdinfo= new CmdAdb().getAppCmdInfo("adb shell dumpsys package com.panda.videoliveplatform|grep userId")[1];
+            String userIdinfo= new CmdAdb().getAppCmdInfo("adb shell dumpsys package "+app+"|grep userId")[1];
             String userId = new PatternRule().regStr(userIdinfo, "\\d+", 0);
             return userId;
         } catch (Exception e){
@@ -27,8 +30,11 @@ public class GetAppUtilInfo {
     }
 
     public String GetAppPid() {
+        AppConfig appConfig = new AppConfig();
+        appConfig.setMap();
+        String app = appConfig.getAppName();
         try {
-            String pid = new CmdAdb().getAppCmdInfo("adb shell ps|grep com.panda.videoliveplatform$")[1].split("\\s+")[1];
+            String pid = new CmdAdb().getAppCmdInfo("adb shell ps|grep "+app)[1].split("\\s+")[1];
             return pid;
         }catch (Exception e){
             System.out.println("获取应用PID失败");
