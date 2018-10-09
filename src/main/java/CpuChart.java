@@ -3,6 +3,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.time.Millisecond;
 import org.jfree.data.time.TimeSeries;
+import utilclass.AppConfig;
 import utilclass.WriteLogFiles;
 import javax.swing.*;
 
@@ -18,12 +19,15 @@ public class CpuChart implements Runnable  {
     private static CSVPrinter cpuPrinter = cpuCsvFile.initPrinter();
 
     public CpuChart(int ver, String pid, String testTitle) {
+        AppConfig appConfig = new AppConfig();
+        appConfig.setMap();
+        String app = appConfig.getAppName();
         this.ver = ver;
         this.pid = pid;
         this.testTitle = testTitle;
         ChartViewJFreeChart cpuViewJFreeChart = new ChartViewJFreeChart();
         cpuViewJFreeChart.setTimeInterval(3600000D);
-        JFreeChart cpuJFreeChart = cpuViewJFreeChart.createOneDataChart("CPU", "com.panda.videoliveplatform","CPU");
+        JFreeChart cpuJFreeChart = cpuViewJFreeChart.createOneDataChart("CPU", app,"CPU");
         this.timeSeries = cpuViewJFreeChart.getTimeSeries();
         this.cpuViewJFrame = new ChartViewJFrame(new ChartPanel(cpuJFreeChart), ".\\out\\log\\CPU"+System.currentTimeMillis()+".jpg",true);
         this.cpuViewJFrame.setjFrame(new JFrame(this.testTitle));

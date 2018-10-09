@@ -1,3 +1,4 @@
+import utilclass.AppConfig;
 import utilclass.CmdAdb;
 import utilclass.GetAppUtilInfo;
 
@@ -6,14 +7,16 @@ import java.io.IOException;
 
 public class FrameTest {
     public static void main(String[] args) throws IOException, InterruptedException {
-
-        System.out.println("为了数据更准备，请在执行前，先将app打开到待测Activity界面, 并在FrameStatsRead.java文件中修改待测Activity名称");
+        AppConfig appConfig = new AppConfig();
+        appConfig.setMap();
+        String app = appConfig.getAppName();
+        System.out.println("为了数据更准备，请在执行前，先将app打开到待测Activity界面");
         System.out.print("请输入你要测试多久UI性能情况，输入数字，比如输入10，代表10分钟: ");
         int testTime = Integer.parseInt(String.valueOf((char) System.in.read()));
         File filePath = new File(".\\out\\log");
         filePath.mkdirs();
-        String resetgfxinfoCmd = "adb shell dumpsys gfxinfo com.panda.videoliveplatform reset";
-        String framestatsCmds = "adb shell dumpsys gfxinfo com.panda.videoliveplatform framestats";
+        String resetgfxinfoCmd = "adb shell dumpsys gfxinfo "+app+" reset";
+        String framestatsCmds = "adb shell dumpsys gfxinfo "+app+" framestats";
         CmdAdb cmdAdb = new CmdAdb();
         System.out.println("首次获取之前,先重置帧数据...请等待...");
         cmdAdb.executeCMDget(resetgfxinfoCmd);//重置帧信息
